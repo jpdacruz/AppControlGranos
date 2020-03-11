@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="categorias">
+
+        <item>SELECCIONAR CATEGORIA INSCRIPCION</item>
+        <item>Hasta 1.400Kg/H</item>
+        <item>De 1.401 a 5.000Kg/H</item>
+        <item>De 5.001 a 15.000Kg/H</item>
+        <item>Más de 15.001Kg/H</item>
+
+    </string-array>
+
+</resources>

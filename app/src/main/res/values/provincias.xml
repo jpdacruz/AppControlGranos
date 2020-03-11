@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="provincia">
+        <item>SELECCIONAR PROVINCIA</item>
+        <item>CABA</item>
+        <item>Buenos Aires</item>
+        <item>Santa Fe</item>
+        <item>Cordoba</item>
+        <item>Entre Rios</item>
+        <item>La Pampa</item>
+        <item>Tucuman</item>
+        <item>Salta</item>
+        <item>Jujuy</item>
+        <item>Mendoza</item>
+        <item>San Luis</item>
+        <item>San Juan</item>
+        <item>Chaco</item>
+        <item>Santiago del Estero</item>
+        <item>Corrientes</item>
+        <item>La Rioja</item>
+        <item>Catamarca</item>
+        <item>Formosa</item>
+        <item>Misiones</item>
+    </string-array>
+
+</resources>

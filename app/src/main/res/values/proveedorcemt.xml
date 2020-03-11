@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="proveedor">
+        <item>SELECCIONAR PROVEEDOR CEMT</item>
+        <item>CENSA</item>
+        <item>SIPEL</item>
+        <item>AM BALANZAS</item>
+        <item>AS SISTEMAS</item>
+        <item>FLEXAR</item>
+        <item>FULCRUM</item>
+        <item>IGB</item>
+        <item>MORETTI</item>
+        <item>PCCENTRO</item>
+
+    </string-array>
+
+
+</resources>
