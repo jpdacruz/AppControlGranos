@@ -41,7 +41,6 @@ public class CargarMolinoActivity extends AppCompatActivity implements Interface
     private LocationListener locationListener;
     private int permisionCheck;
     private FirebaseDatabase database;
-    private DatabaseReference referenceMolino;
     private DatabaseReference referenceOperador;
     private ArrayList<Planta> plantas;
     private Operador operador;
@@ -142,7 +141,6 @@ public class CargarMolinoActivity extends AppCompatActivity implements Interface
     private void instanciarBaseDatos() {
 
         database = FirebaseDatabase.getInstance();
-        referenceMolino = database.getReference(Constantes.PATH_MOLINO);
         referenceOperador = database.getReference(Constantes.PATH_OPERADOR);
     }
 
@@ -161,9 +159,6 @@ public class CargarMolinoActivity extends AppCompatActivity implements Interface
 
         molino = new Molino();
 
-        molino.setNumeroOperador(mNumeroOperador.getText().toString());
-        molino.setCuit(mCuit.getText().toString());
-        molino.setRazonSocial(mRazonSocial.getText().toString());
         molino.setNumeroPlanta(mNumeroPlanta.getText().toString());
         molino.setProvincia(spinnerProvincia.getSelectedItem().toString());
         molino.setLocalidad(mLocalidad.getText().toString());
@@ -179,7 +174,7 @@ public class CargarMolinoActivity extends AppCompatActivity implements Interface
         operador.setPlantas(plantas);
 
         referenceOperador.push().setValue(operador);
-        referenceMolino.push().setValue(molino);
+
     }
 
     private void ejecutarGPS() {

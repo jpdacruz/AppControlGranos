@@ -1,9 +1,11 @@
 package com.jpdacruz.appcontrolgranos.clases;
 
-public class Planta{
-    private String numeroOperador;
-    private String cuit;
-    private String razonSocial;
+import java.util.ArrayList;
+import java.util.Objects;
+
+public class Planta extends Operador{
+
+    private String idPlanta;
     private String numeroPlanta;
     private String provincia;
     private String localidad;
@@ -16,13 +18,8 @@ public class Planta{
     public Planta() {
     }
 
-    public Planta(String numeroOperador, String cuit, String razonSocial, String numeroPlanta,
-                  String provincia,String localidad, String gpsSur, String gpsOeste,
-                  String direccion, String email, String cantInspecciones) {
-
-        this.numeroOperador = numeroOperador;
-        this.cuit = cuit;
-        this.razonSocial = razonSocial;
+    public Planta(String idPlanta, String numeroPlanta, String provincia, String localidad, String gpsSur, String gpsOeste, String direccion, String email, String cantInspecciones) {
+        this.idPlanta = idPlanta;
         this.numeroPlanta = numeroPlanta;
         this.provincia = provincia;
         this.localidad = localidad;
@@ -33,28 +30,23 @@ public class Planta{
         this.cantInspecciones = cantInspecciones;
     }
 
-    public String getNumeroOperador() {
-        return numeroOperador;
+    public Planta(String numeroPlanta, String provincia, String localidad, String gpsSur, String gpsOeste, String direccion, String email, String cantInspecciones) {
+        this.numeroPlanta = numeroPlanta;
+        this.provincia = provincia;
+        this.localidad = localidad;
+        this.gpsSur = gpsSur;
+        this.gpsOeste = gpsOeste;
+        this.direccion = direccion;
+        this.email = email;
+        this.cantInspecciones = cantInspecciones;
     }
 
-    public void setNumeroOperador(String numeroOperador) {
-        this.numeroOperador = numeroOperador;
+    public String getIdPlanta() {
+        return idPlanta;
     }
 
-    public String getCuit() {
-        return cuit;
-    }
-
-    public void setCuit(String cuit) {
-        this.cuit = cuit;
-    }
-
-    public String getRazonSocial() {
-        return razonSocial;
-    }
-
-    public void setRazonSocial(String razonSocial) {
-        this.razonSocial = razonSocial;
+    public void setIdPlanta(String idPlanta) {
+        this.idPlanta = idPlanta;
     }
 
     public String getNumeroPlanta() {
@@ -124,9 +116,7 @@ public class Planta{
     @Override
     public String toString() {
         return "Planta{" +
-                "numeroOperador='" + numeroOperador + '\'' +
-                ", cuit='" + cuit + '\'' +
-                ", razonSocial='" + razonSocial + '\'' +
+                "idPlanta='" + idPlanta + '\'' +
                 ", numeroPlanta='" + numeroPlanta + '\'' +
                 ", provincia='" + provincia + '\'' +
                 ", localidad='" + localidad + '\'' +

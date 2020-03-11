@@ -5,16 +5,19 @@ import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.jpdacruz.appcontrolgranos.R;
 import com.jpdacruz.appcontrolgranos.activities.CargarMolinoActivity;
 import com.jpdacruz.appcontrolgranos.adapters.AdapterOperadores;
 import com.jpdacruz.appcontrolgranos.clases.Constantes;
 import com.jpdacruz.appcontrolgranos.clases.Operador;
+import com.jpdacruz.appcontrolgranos.clases.Planta;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +31,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Adapter;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -52,11 +56,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        iniciarDataBase();
         iniciarComponentes();
         iniciarBotones();
         iniciarRecyclerViewOperadores();
         obtenerDatosFirebase();
         iniciarSearchView();
+    }
+
+    private void iniciarDataBase() {
+
+        FirebaseApp.initializeApp(this);
+        database = FirebaseDatabase.getInstance();
+        refOperador= database.getReference(Constantes.PATH_OPERADOR);
     }
 
     private void iniciarSearchView() {
@@ -78,37 +90,29 @@ public class MainActivity extends AppCompatActivity {
 
     private void obtenerDatosFirebase() {
 
-        database = FirebaseDatabase.getInstance();
-        refOperador= database.getReference(Constantes.PATH_OPERADOR);
-
-        refOperador.addChildEventListener(new ChildEventListener() {
+        refOperador.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                Operador operador = dataSnapshot.getValue(Operador.class);
-                operadores.add(operador);
-                recyclerOperadores.getAdapter().notifyDataSetChanged();
+                operadores.clear();
+                for(DataSnapshot objetoDatasnapshot : dataSnapshot.getChildren()){
+
+                    Operador operador = objetoDatasnapshot.getValue(Operador.class);
+
+                    modificarOperador(operador, objetoDatasnapshot);
+
+                    operadores.add(operador);
+                    recyclerOperadores.getAdapter().notifyDataSetChanged();
+                    refOperador.child(operador.getId()).setValue(operador);
+                }
             }
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            private void modificarOperador(Operador operador, DataSnapshot objetoDatasnapshot) {
 
-                Operador operador = dataSnapshot.getValue(Operador.class);
-                operadores.set(operadores.indexOf(operador), operador);
-                recyclerOperadores.getAdapter().notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                Operador operador = dataSnapshot.getValue(Operador.class);
-                operadores.remove(operador);
-                recyclerOperadores.getAdapter().notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                operador.setId(objetoDatasnapshot.getKey());
+                operador.setSeoOperador(operador.getNumeroOperador() + " "
+                        + operador.getCuit() + " "
+                        + operador.getRazonSocial());
             }
 
             @Override

@@ -1,6 +1,7 @@
 package com.jpdacruz.appcontrolgranos.clases;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class Molino extends Planta implements Serializable {
 
@@ -10,11 +11,14 @@ public class Molino extends Planta implements Serializable {
     public Molino() {
     }
 
-    public Molino(String numeroOperador, String cuit, String razonSocial, String numeroPlanta,
-                  String provincia, String localidad, String gpsSur, String gpsOeste, String direccion,
-                  String email, String cantInspecciones, String categoria, String proveedor) {
-        super(numeroOperador, cuit, razonSocial, numeroPlanta, provincia,
-                localidad, gpsSur, gpsOeste, direccion, email, cantInspecciones);
+    public Molino(String numeroPlanta, String provincia, String localidad, String gpsSur, String gpsOeste, String direccion, String email, String cantInspecciones, String categoria, String proveedor) {
+        super(numeroPlanta, provincia, localidad, gpsSur, gpsOeste, direccion, email, cantInspecciones);
+        this.categoria = categoria;
+        this.proveedor = proveedor;
+    }
+
+    public Molino(String idPlanta, String numeroPlanta, String provincia, String localidad, String gpsSur, String gpsOeste, String direccion, String email, String cantInspecciones, String categoria, String proveedor) {
+        super(idPlanta, numeroPlanta, provincia, localidad, gpsSur, gpsOeste, direccion, email, cantInspecciones);
         this.categoria = categoria;
         this.proveedor = proveedor;
     }

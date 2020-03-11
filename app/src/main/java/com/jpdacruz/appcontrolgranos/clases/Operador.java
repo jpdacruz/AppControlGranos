@@ -2,9 +2,11 @@ package com.jpdacruz.appcontrolgranos.clases;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Operador implements Serializable {
 
+    private String id;
     private String numeroOperador;
     private String cuit;
     private String razonSocial;
@@ -14,12 +16,29 @@ public class Operador implements Serializable {
     public Operador() {
     }
 
+    public Operador(String id, String numeroOperador, String cuit, String razonSocial, String seoOperador, ArrayList<Planta> plantas) {
+        this.id = id;
+        this.numeroOperador = numeroOperador;
+        this.cuit = cuit;
+        this.razonSocial = razonSocial;
+        this.seoOperador = seoOperador;
+        this.plantas = plantas;
+    }
+
     public Operador(String numeroOperador, String cuit, String razonSocial, String seoOperador, ArrayList<Planta> plantas) {
         this.numeroOperador = numeroOperador;
         this.cuit = cuit;
         this.razonSocial = razonSocial;
         this.seoOperador = seoOperador;
         this.plantas = plantas;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNumeroOperador() {
@@ -65,11 +84,25 @@ public class Operador implements Serializable {
     @Override
     public String toString() {
         return "Operador{" +
-                "numeroOperador='" + numeroOperador + '\'' +
+                "id='" + id + '\'' +
+                ", numeroOperador='" + numeroOperador + '\'' +
                 ", cuit='" + cuit + '\'' +
                 ", razonSocial='" + razonSocial + '\'' +
                 ", seoOperador='" + seoOperador + '\'' +
                 ", plantas=" + plantas +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Operador operador = (Operador) o;
+        return id.equals(operador.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
