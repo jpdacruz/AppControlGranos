@@ -18,6 +18,7 @@ import com.jpdacruz.appcontrolgranos.adapters.AdapterOperadores;
 import com.jpdacruz.appcontrolgranos.clases.Constantes;
 import com.jpdacruz.appcontrolgranos.clases.Operador;
 import com.jpdacruz.appcontrolgranos.clases.Planta;
+import com.jpdacruz.appcontrolgranos.fragments.ListarOperadoresFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -38,96 +39,20 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     //widgets
-    private RecyclerView recyclerOperadores;
     private Toolbar toolbar;
     private FloatingActionButton fab;
-    private AdapterOperadores adapterOperadores;
-    private AdapterOperadores adapterOperadoresEncontrados;
-    private SearchView searchViewOperadores;
-
-    //vars
-    private FirebaseDatabase database;
-    private DatabaseReference refOperador;
-    private ArrayList<Operador> operadores;
-    private ArrayList<Operador> busquedaOperadores;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        iniciarDataBase();
         iniciarComponentes();
         iniciarBotones();
-        iniciarRecyclerViewOperadores();
-        obtenerDatosFirebase();
-        iniciarSearchView();
-    }
 
-    private void iniciarDataBase() {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container_fragment,new ListarOperadoresFragment()).commit();
 
-        FirebaseApp.initializeApp(this);
-        database = FirebaseDatabase.getInstance();
-        refOperador= database.getReference(Constantes.PATH_OPERADOR);
-    }
-
-    private void iniciarSearchView() {
-
-        searchViewOperadores.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                buscarSeoOperadores(newText);
-                return true;
-            }
-        });
-    }
-
-    private void obtenerDatosFirebase() {
-
-        refOperador.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                operadores.clear();
-                for(DataSnapshot objetoDatasnapshot : dataSnapshot.getChildren()){
-
-                    Operador operador = objetoDatasnapshot.getValue(Operador.class);
-
-                    modificarOperador(operador, objetoDatasnapshot);
-
-                    operadores.add(operador);
-                    recyclerOperadores.getAdapter().notifyDataSetChanged();
-                    refOperador.child(operador.getId()).setValue(operador);
-                }
-            }
-
-            private void modificarOperador(Operador operador, DataSnapshot objetoDatasnapshot) {
-
-                operador.setId(objetoDatasnapshot.getKey());
-                operador.setSeoOperador(operador.getNumeroOperador() + " "
-                        + operador.getCuit() + " "
-                        + operador.getRazonSocial());
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-    private void iniciarRecyclerViewOperadores() {
-
-        recyclerOperadores.setLayoutManager(new LinearLayoutManager(this));
-        operadores = new ArrayList<>();
-        adapterOperadores = new AdapterOperadores(operadores);
-        recyclerOperadores.setAdapter(adapterOperadores);
     }
 
     private void iniciarBotones() {
@@ -141,31 +66,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void buscarSeoOperadores(String newText) {
-
-        busquedaOperadores = new ArrayList<>();
-
-        for (Operador operadorEncontrado : operadores){
-
-            if(operadorEncontrado.getSeoOperador().toLowerCase().contains(newText.toLowerCase())){
-
-                busquedaOperadores.add(operadorEncontrado);
-            }
-
-            adapterOperadoresEncontrados = new AdapterOperadores(busquedaOperadores);
-            recyclerOperadores.setAdapter(adapterOperadoresEncontrados);
-        }
-    }
-
     private void iniciarComponentes() {
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         fab = findViewById(R.id.fab);
-        recyclerOperadores = findViewById(R.id.recyclerViewOperadores);
-        searchViewOperadores = findViewById(R.id.searchViewOperadores);
-
     }
 
     @Override
