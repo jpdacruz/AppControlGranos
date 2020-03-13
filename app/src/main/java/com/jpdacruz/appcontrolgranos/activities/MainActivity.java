@@ -4,14 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jpdacruz.appcontrolgranos.R;
+import com.jpdacruz.appcontrolgranos.clases.Operador;
 import com.jpdacruz.appcontrolgranos.fragments.ListarOperadoresFragment;
+import com.jpdacruz.appcontrolgranos.fragments.ListarPlantasFragment;
+import com.jpdacruz.appcontrolgranos.interfaces.CallBackInterface;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements CallBackInterface {
 
     //widgets
     private Toolbar toolbar;
@@ -24,10 +29,28 @@ public class MainActivity extends AppCompatActivity {
 
         iniciarComponentes();
         iniciarBotones();
+        irFragmentOperadores();
+
+    }
+
+    private void irFragmentOperadores() {
+
+        ListarOperadoresFragment listarOperadoresFragment = new ListarOperadoresFragment();
+        listarOperadoresFragment.setCallBackInterface(this);
+
+        getSupportFragmentManager().beginTransaction().add(R.id.container_fragment,listarOperadoresFragment).commit();
+    }
+
+    private void irFragmentPlantas(Operador operador) {
+
+        ListarPlantasFragment listarPlantasFragment = new ListarPlantasFragment();
+
+        Bundle datosOperador = new Bundle();
+        datosOperador.putSerializable("operador" ,operador);
+        listarPlantasFragment.setArguments(datosOperador);
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container_fragment,new ListarOperadoresFragment()).commit();
-
+                .replace(R.id.container_fragment,listarPlantasFragment).addToBackStack(null).commit();
     }
 
     private void iniciarBotones() {
@@ -70,4 +93,12 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void callBackMainActivity(Operador operador) {
+
+        irFragmentPlantas(operador);
+    }
+
+
 }

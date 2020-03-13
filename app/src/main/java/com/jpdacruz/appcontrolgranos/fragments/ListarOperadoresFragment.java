@@ -25,6 +25,7 @@ import com.jpdacruz.appcontrolgranos.R;
 import com.jpdacruz.appcontrolgranos.adapters.AdapterOperadores;
 import com.jpdacruz.appcontrolgranos.clases.Constantes;
 import com.jpdacruz.appcontrolgranos.clases.Operador;
+import com.jpdacruz.appcontrolgranos.interfaces.CallBackInterface;
 
 import java.util.ArrayList;
 
@@ -43,6 +44,7 @@ public class ListarOperadoresFragment extends Fragment {
     private DatabaseReference refOperador;
     private ArrayList<Operador> operadores;
     private ArrayList<Operador> busquedaOperadores;
+    private CallBackInterface callBackInterface;
 
     public ListarOperadoresFragment() {
         // Required empty public constructor
@@ -72,6 +74,9 @@ public class ListarOperadoresFragment extends Fragment {
 
                 Operador operadorAmostrar = operadores.get(recyclerOperadores.getChildAdapterPosition(view));
 
+                if (callBackInterface != null) {
+                    callBackInterface.callBackMainActivity(operadorAmostrar);
+                }
             }
         });
     }
@@ -162,5 +167,10 @@ public class ListarOperadoresFragment extends Fragment {
 
         recyclerOperadores = view.findViewById(R.id.recyclerViewOperadores);
         searchViewOperadores = view.findViewById(R.id.searchViewOperadores);
+    }
+
+    public void setCallBackInterface(CallBackInterface callBackInterface){
+
+        this.callBackInterface = callBackInterface;
     }
 }
