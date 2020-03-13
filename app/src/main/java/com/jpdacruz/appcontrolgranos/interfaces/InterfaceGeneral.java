@@ -1,4 +1,4 @@
-package com.jpdacruz.appcontrolgranos.clases;
+package com.jpdacruz.appcontrolgranos.interfaces;
 
 import android.view.View;
 import android.widget.EditText;

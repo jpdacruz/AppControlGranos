@@ -2,39 +2,14 @@ package com.jpdacruz.appcontrolgranos.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.jpdacruz.appcontrolgranos.R;
-import com.jpdacruz.appcontrolgranos.activities.CargarMolinoActivity;
-import com.jpdacruz.appcontrolgranos.adapters.AdapterOperadores;
-import com.jpdacruz.appcontrolgranos.clases.Constantes;
-import com.jpdacruz.appcontrolgranos.clases.Operador;
-import com.jpdacruz.appcontrolgranos.clases.Planta;
 import com.jpdacruz.appcontrolgranos.fragments.ListarOperadoresFragment;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Adapter;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 

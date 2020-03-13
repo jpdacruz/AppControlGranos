@@ -43,7 +43,6 @@ public class ListarOperadoresFragment extends Fragment {
     private DatabaseReference refOperador;
     private ArrayList<Operador> operadores;
     private ArrayList<Operador> busquedaOperadores;
-    private TomarDatosFragmentListener listener;
 
     public ListarOperadoresFragment() {
         // Required empty public constructor
@@ -64,12 +63,6 @@ public class ListarOperadoresFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        listener = (TomarDatosFragmentListener) context;
-    }
 
     private void iniciarListenerRecyclerViewOperadores() {
 
@@ -79,7 +72,6 @@ public class ListarOperadoresFragment extends Fragment {
 
                 Operador operadorAmostrar = operadores.get(recyclerOperadores.getChildAdapterPosition(view));
 
-                listener.enviarDatosOperador(operadorAmostrar);
             }
         });
     }
@@ -171,11 +163,4 @@ public class ListarOperadoresFragment extends Fragment {
         recyclerOperadores = view.findViewById(R.id.recyclerViewOperadores);
         searchViewOperadores = view.findViewById(R.id.searchViewOperadores);
     }
-
-    public interface TomarDatosFragmentListener {
-
-        void enviarDatosOperador(Operador operadorAmostrar);
-    }
-
-
 }

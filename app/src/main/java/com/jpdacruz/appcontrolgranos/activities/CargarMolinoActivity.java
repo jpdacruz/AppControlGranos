@@ -20,13 +20,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.jpdacruz.appcontrolgranos.R;
 import com.jpdacruz.appcontrolgranos.clases.Constantes;
-import com.jpdacruz.appcontrolgranos.clases.InterfaceGeneral;
+import com.jpdacruz.appcontrolgranos.interfaces.InterfaceGeneral;
 import com.jpdacruz.appcontrolgranos.clases.Molino;
 import com.jpdacruz.appcontrolgranos.clases.Operador;
 import com.jpdacruz.appcontrolgranos.clases.Planta;
