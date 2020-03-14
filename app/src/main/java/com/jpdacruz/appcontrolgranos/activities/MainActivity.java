@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity implements CallBackInterface
         iniciarComponentes();
         iniciarBotones();
         irFragmentOperadores();
-
     }
 
     private void irFragmentOperadores() {

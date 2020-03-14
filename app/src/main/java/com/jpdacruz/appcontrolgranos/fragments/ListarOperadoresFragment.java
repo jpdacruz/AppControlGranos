@@ -33,8 +33,6 @@ public class ListarOperadoresFragment extends Fragment {
 
     //widgets
     private RecyclerView recyclerOperadores;
-    private Toolbar toolbar;
-    private FloatingActionButton fab;
     private AdapterOperadores adapterOperadores;
     private AdapterOperadores adapterOperadoresEncontrados;
     private SearchView searchViewOperadores;
