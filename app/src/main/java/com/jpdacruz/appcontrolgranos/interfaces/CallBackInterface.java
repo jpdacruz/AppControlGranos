@@ -5,4 +5,5 @@ import com.jpdacruz.appcontrolgranos.clases.Operador;
 public interface CallBackInterface {
 
     public void callBackMainActivity(Operador operador);
+    public void callBackToAddPlanta(Operador operador);
 }

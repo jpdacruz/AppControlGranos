@@ -14,9 +14,11 @@ import com.jpdacruz.appcontrolgranos.clases.Planta;
 
 import java.util.ArrayList;
 
-public class AdapterPlantas extends RecyclerView.Adapter<AdapterPlantas.ViewHolder> {
+public class AdapterPlantas extends RecyclerView.Adapter<AdapterPlantas.ViewHolder>
+                            implements View.OnClickListener{
 
     private ArrayList<Planta> plantas;
+    private View.OnClickListener listener;
 
     public AdapterPlantas(ArrayList<Planta> plantas) {
         this.plantas = plantas;
@@ -27,6 +29,8 @@ public class AdapterPlantas extends RecyclerView.Adapter<AdapterPlantas.ViewHold
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemplantas,parent,false);
+
+        view.setOnClickListener(this);
 
         return new ViewHolder(view);
     }
@@ -43,6 +47,19 @@ public class AdapterPlantas extends RecyclerView.Adapter<AdapterPlantas.ViewHold
     @Override
     public int getItemCount() {
         return plantas.size();
+    }
+
+    public void setOnClickListener (View.OnClickListener listener) {
+
+        this.listener = listener;
+    }
+
+    public void onClick(View v) {
+
+        if (listener != null){
+
+            listener.onClick(v);
+        }
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

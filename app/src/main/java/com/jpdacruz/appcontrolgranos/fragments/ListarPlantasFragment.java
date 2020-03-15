@@ -1,10 +1,9 @@
 package com.jpdacruz.appcontrolgranos.fragments;
 
-import android.graphics.Path;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,13 +27,14 @@ import com.jpdacruz.appcontrolgranos.adapters.AdapterPlantas;
 import com.jpdacruz.appcontrolgranos.clases.Constantes;
 import com.jpdacruz.appcontrolgranos.clases.Operador;
 import com.jpdacruz.appcontrolgranos.clases.Planta;
-
+import com.jpdacruz.appcontrolgranos.interfaces.CallBackInterface;
 import java.util.ArrayList;
 
 public class ListarPlantasFragment extends Fragment {
 
     //widgets
     private TextView mNumeroOperador, mCuit, mRazonSocial;
+    private Button btnAgregarPlanta;
     private RecyclerView recyclerPlantas;
     private AdapterPlantas adapterPlantas;
 
@@ -43,6 +44,7 @@ public class ListarPlantasFragment extends Fragment {
     private DatabaseReference refOperador;
     private ArrayList<Operador> operadores;
     private ArrayList<Planta> plantas;
+    private CallBackInterface callBackInterface;
 
     public ListarPlantasFragment() {
         // Required empty public constructor
@@ -56,9 +58,10 @@ public class ListarPlantasFragment extends Fragment {
 
         iniciarDataBase();
         iniciarComponentes(view);
+        iniciarRecyclerViewPlantas();
         comprobarBundle();
-        iniciarRecyclerViewPlanta();
         obtenerDatosFirebase();
+        iniciarListenerBotones();
 
         return view;
     }
@@ -70,46 +73,22 @@ public class ListarPlantasFragment extends Fragment {
         refOperador= database.getReference(Constantes.PATH_OPERADOR);
     }
 
-    private void obtenerDatosFirebase() {
+    private void iniciarComponentes(View view) {
 
-        operadores = new ArrayList<>();
-        refOperador.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                operadores.clear();
-                plantas.clear();
-                for(DataSnapshot objetoDatasnapshot : dataSnapshot.getChildren()){
-
-                    Operador operador = objetoDatasnapshot.getValue(Operador.class);
-                    operadores.add(operador);
-                }
-
-                listarPlantasOperadorSeleccionado();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-
-            private void listarPlantasOperadorSeleccionado() {
-
-                for (Operador operador : operadores){
-
-                    if(operador.getId().toLowerCase().contains(operadorEnviado.getId().toLowerCase())){
-
-                        plantas = operador.getPlantas();
-                        adapterPlantas = new AdapterPlantas(plantas);
-                        recyclerPlantas.setAdapter(adapterPlantas);
-                    }
-                }
-            }
-        });
+        recyclerPlantas = view.findViewById(R.id.recyclerPlantas);
+        mNumeroOperador = view.findViewById(R.id.listarPlantasOperador);
+        mCuit = view.findViewById(R.id.listarPlantasCUIT);
+        mRazonSocial = view.findViewById(R.id.listarPlantasRazonSocial);
+        btnAgregarPlanta = view.findViewById(R.id.plantaButtonAgregarPLanta);
     }
-    private void iniciarRecyclerViewPlanta() {
+
+    private void iniciarRecyclerViewPlantas() {
 
         recyclerPlantas.setLayoutManager(new LinearLayoutManager(getContext()));
+        operadores = new ArrayList<>();
         plantas = new ArrayList<>();
+        adapterPlantas = new AdapterPlantas(plantas);
+        recyclerPlantas.setAdapter(adapterPlantas);
     }
 
     private void comprobarBundle() {
@@ -120,12 +99,42 @@ public class ListarPlantasFragment extends Fragment {
         }
     }
 
-    private void iniciarComponentes(View view) {
+    private void obtenerDatosFirebase() {
 
-        recyclerPlantas = view.findViewById(R.id.recyclerPlantas);
-        mNumeroOperador = view.findViewById(R.id.listarPlantasOperador);
-        mCuit = view.findViewById(R.id.listarPlantasCUIT);
-        mRazonSocial = view.findViewById(R.id.listarPlantasRazonSocial);
+        refOperador.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                obtenerAllOperadores(dataSnapshot);
+                obtenerPlantasOperador();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void obtenerPlantasOperador() {
+
+        for (Operador operadorPlantas : operadores){
+
+            if(operadorPlantas.getId().toLowerCase().contains(operadorEnviado.getId().toLowerCase())){
+
+                plantas = operadorPlantas.getPlantas();
+                adapterPlantas = new AdapterPlantas(plantas);
+                recyclerPlantas.setAdapter(adapterPlantas);
+            }
+        }
+    }
+
+    private void obtenerAllOperadores(@NonNull DataSnapshot dataSnapshot) {
+
+        for(DataSnapshot objetoDatasnapshot : dataSnapshot.getChildren()){
+
+            Operador operador = objetoDatasnapshot.getValue(Operador.class);
+            operadores.add(operador);
+        }
     }
 
     private void asignarDatosOperador(Operador operadorEnviado) {
@@ -134,4 +143,23 @@ public class ListarPlantasFragment extends Fragment {
         mCuit.setText("CUIT: " + operadorEnviado.getCuit());
         mRazonSocial.setText("Razon social: " + operadorEnviado.getRazonSocial());
     }
+
+    public void setCallBackInterface(CallBackInterface callBackInterface){
+
+        this.callBackInterface = callBackInterface;
+    }
+
+    private void iniciarListenerBotones() {
+
+        btnAgregarPlanta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (callBackInterface != null) {
+                    callBackInterface.callBackToAddPlanta(operadorEnviado);
+                }
+            }
+        });
+    }
+
 }

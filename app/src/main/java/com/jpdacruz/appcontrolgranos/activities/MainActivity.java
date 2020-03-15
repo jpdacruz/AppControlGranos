@@ -14,7 +14,6 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements CallBackInterface {
 
@@ -43,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements CallBackInterface
     private void irFragmentPlantas(Operador operador) {
 
         ListarPlantasFragment listarPlantasFragment = new ListarPlantasFragment();
+        listarPlantasFragment.setCallBackInterface(this);
 
         Bundle datosOperador = new Bundle();
         datosOperador.putSerializable("operador" ,operador);
@@ -50,6 +50,15 @@ public class MainActivity extends AppCompatActivity implements CallBackInterface
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container_fragment,listarPlantasFragment).addToBackStack(null).commit();
+    }
+
+    private void irActivityCargarOperadoresAgregarPlanta(Operador operador) {
+
+        Intent intent = new Intent(this, CargarMolinoActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("operador", operador);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     private void iniciarBotones() {
@@ -97,6 +106,12 @@ public class MainActivity extends AppCompatActivity implements CallBackInterface
     public void callBackMainActivity(Operador operador) {
 
         irFragmentPlantas(operador);
+    }
+
+    @Override
+    public void callBackToAddPlanta(Operador operador) {
+
+        irActivityCargarOperadoresAgregarPlanta(operador);
     }
 
 

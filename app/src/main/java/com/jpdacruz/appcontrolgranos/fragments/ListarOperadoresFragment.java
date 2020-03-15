@@ -63,7 +63,6 @@ public class ListarOperadoresFragment extends Fragment {
         return view;
     }
 
-
     private void iniciarListenerRecyclerViewOperadores() {
 
         adapterOperadores.setOnClickListener(new View.OnClickListener() {

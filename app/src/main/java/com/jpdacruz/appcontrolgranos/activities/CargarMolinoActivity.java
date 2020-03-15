@@ -20,6 +20,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -32,7 +33,6 @@ import com.jpdacruz.appcontrolgranos.clases.Planta;
 
 import java.util.ArrayList;
 
-
 public class CargarMolinoActivity extends AppCompatActivity implements InterfaceGeneral {
 
     //vars
@@ -41,9 +41,11 @@ public class CargarMolinoActivity extends AppCompatActivity implements Interface
     private int permisionCheck;
     private FirebaseDatabase database;
     private DatabaseReference referenceOperador;
-    private ArrayList<Planta> plantas;
+    private ArrayList<Planta> plantas = new ArrayList<>();
     private Operador operador;
+    private Operador operadorEnviado;
     private Molino molino;
+    private Boolean esAgregarNuevaPlanta;
 
     //widgets
     Toolbar toolbar;
@@ -56,9 +58,34 @@ public class CargarMolinoActivity extends AppCompatActivity implements Interface
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cargar_molino);
 
+        plantas = new ArrayList<>();
+        esAgregarNuevaPlanta = false;
+
         iniciarComponentes();
+        comprobarBundle();
         iniciarGPS();
         iniciarBotones();
+    }
+
+    private void comprobarBundle() {
+
+        Bundle bundleEnviado = getIntent().getExtras();
+        operadorEnviado = null;
+
+        if (bundleEnviado != null){
+
+            operadorEnviado = (Operador) bundleEnviado.getSerializable("operador");
+
+            mNumeroOperador.setText(operadorEnviado.getNumeroOperador());
+            mNumeroOperador.setEnabled(false);
+            mCuit.setText(operadorEnviado.getCuit());
+            mCuit.setEnabled(false);
+            mRazonSocial.setText(operadorEnviado.getRazonSocial());
+            mRazonSocial.setEnabled(false);
+            esAgregarNuevaPlanta = true;
+            plantas = operadorEnviado.getPlantas();
+
+        }
     }
 
     private void iniciarComponentes() {
@@ -146,8 +173,6 @@ public class CargarMolinoActivity extends AppCompatActivity implements Interface
     private void crearObjetoMolino() {
 
         operador = new Operador();
-        plantas = new ArrayList<>();
-
         operador.setNumeroOperador(mNumeroOperador.getText().toString());
         operador.setCuit(mCuit.getText().toString());
         operador.setRazonSocial(mRazonSocial.getText().toString());
@@ -155,9 +180,7 @@ public class CargarMolinoActivity extends AppCompatActivity implements Interface
         operador.setSeoOperador(operador.getNumeroOperador() + " "
                                 + operador.getCuit() + " "
                                 + operador.getRazonSocial());
-
         molino = new Molino();
-
         molino.setNumeroPlanta(mNumeroPlanta.getText().toString());
         molino.setProvincia(spinnerProvincia.getSelectedItem().toString());
         molino.setLocalidad(mLocalidad.getText().toString());
@@ -172,8 +195,14 @@ public class CargarMolinoActivity extends AppCompatActivity implements Interface
         plantas.add(molino);
         operador.setPlantas(plantas);
 
-        referenceOperador.push().setValue(operador);
+        if (esAgregarNuevaPlanta){
 
+            referenceOperador.child(operadorEnviado.getId()).setValue(operador);
+
+        }else {
+
+            referenceOperador.push().setValue(operador);
+        }
     }
 
     private void ejecutarGPS() {
