@@ -11,20 +11,29 @@ import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.jpdacruz.appcontrolgranos.R;
+import com.jpdacruz.appcontrolgranos.adapters.AdapterOperadores;
 import com.jpdacruz.appcontrolgranos.clases.Constantes;
 import com.jpdacruz.appcontrolgranos.interfaces.InterfaceGeneral;
 import com.jpdacruz.appcontrolgranos.clases.Molino;
@@ -33,19 +42,23 @@ import com.jpdacruz.appcontrolgranos.clases.Planta;
 
 import java.util.ArrayList;
 
+import static com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG;
+
 public class CargarMolinoActivity extends AppCompatActivity implements InterfaceGeneral {
 
     //vars
+    private static final String TAG = "CargarMolinoActivity";
     private LocationManager ubicacion;
     private LocationListener locationListener;
     private int permisionCheck;
     private FirebaseDatabase database;
     private DatabaseReference referenceOperador;
     private ArrayList<Planta> plantas = new ArrayList<>();
+    private ArrayList<Operador> operadores = new ArrayList<>();
     private Operador operador;
     private Operador operadorEnviado;
     private Molino molino;
-    private Boolean esAgregarNuevaPlanta;
+    private Boolean esAgregarNuevaPlanta = false;
 
     //widgets
     Toolbar toolbar;
@@ -58,34 +71,20 @@ public class CargarMolinoActivity extends AppCompatActivity implements Interface
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cargar_molino);
 
-        plantas = new ArrayList<>();
-        esAgregarNuevaPlanta = false;
-
+        iniciarDataBase();
         iniciarComponentes();
         comprobarBundle();
         iniciarGPS();
         iniciarBotones();
     }
 
-    private void comprobarBundle() {
+    private void iniciarDataBase() {
 
-        Bundle bundleEnviado = getIntent().getExtras();
-        operadorEnviado = null;
+        Log.d(TAG,"iniciardo database");
 
-        if (bundleEnviado != null){
-
-            operadorEnviado = (Operador) bundleEnviado.getSerializable("operador");
-
-            mNumeroOperador.setText(operadorEnviado.getNumeroOperador());
-            mNumeroOperador.setEnabled(false);
-            mCuit.setText(operadorEnviado.getCuit());
-            mCuit.setEnabled(false);
-            mRazonSocial.setText(operadorEnviado.getRazonSocial());
-            mRazonSocial.setEnabled(false);
-            esAgregarNuevaPlanta = true;
-            plantas = operadorEnviado.getPlantas();
-
-        }
+        FirebaseApp.initializeApp(this);
+        database = FirebaseDatabase.getInstance();
+        referenceOperador= database.getReference(Constantes.PATH_OPERADOR);
     }
 
     private void iniciarComponentes() {
@@ -109,6 +108,26 @@ public class CargarMolinoActivity extends AppCompatActivity implements Interface
         spinnerCategoria = findViewById(R.id.molinoSpinnerActividad);
         spinnerProvincia = findViewById(R.id.molinoSpinnerProvincia);
         spinnerProveedor = findViewById(R.id.molinoSpinnerProveedor);
+    }
+
+    private void comprobarBundle() {
+
+        Bundle bundleEnviado = getIntent().getExtras();
+        operadorEnviado = null;
+
+        if (bundleEnviado != null){
+
+            operadorEnviado = (Operador) bundleEnviado.getSerializable("operador");
+
+            mNumeroOperador.setText(operadorEnviado.getNumeroOperador());
+            mNumeroOperador.setEnabled(false);
+            mCuit.setText(operadorEnviado.getCuit());
+            mCuit.setEnabled(false);
+            mRazonSocial.setText(operadorEnviado.getRazonSocial());
+            mRazonSocial.setEnabled(false);
+            esAgregarNuevaPlanta = true;
+            plantas = operadorEnviado.getPlantas();
+        }
     }
 
     private void iniciarGPS() {
@@ -150,24 +169,12 @@ public class CargarMolinoActivity extends AppCompatActivity implements Interface
 
                 }else {
 
-                    insertarDatosDB();
+                    crearObjetoMolino();
 
                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 }
             }
         });
-    }
-
-    private void insertarDatosDB() {
-
-        instanciarBaseDatos();
-        crearObjetoMolino();
-    }
-
-    private void instanciarBaseDatos() {
-
-        database = FirebaseDatabase.getInstance();
-        referenceOperador = database.getReference(Constantes.PATH_OPERADOR);
     }
 
     private void crearObjetoMolino() {
@@ -230,7 +237,6 @@ public class CargarMolinoActivity extends AppCompatActivity implements Interface
 
         ubicacion.requestLocationUpdates
                 (LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-
     }
 
     @Override
@@ -326,6 +332,6 @@ public class CargarMolinoActivity extends AppCompatActivity implements Interface
     @Override
     public void informarError(String string, View view) {
 
-        Snackbar.make(view,"Debe agregar: " + string,Snackbar.LENGTH_LONG).show();
+        Snackbar.make(view,"Debe agregar: " + string, LENGTH_LONG).show();
     }
 }
