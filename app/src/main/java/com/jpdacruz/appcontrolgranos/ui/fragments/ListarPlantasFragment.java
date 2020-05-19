@@ -1,10 +1,8 @@
-package com.jpdacruz.appcontrolgranos.fragments;
+package com.jpdacruz.appcontrolgranos.ui.fragments;
 
-import android.graphics.Path;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
@@ -24,12 +21,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jpdacruz.appcontrolgranos.R;
-import com.jpdacruz.appcontrolgranos.adapters.AdapterOperadores;
-import com.jpdacruz.appcontrolgranos.adapters.AdapterPlantas;
-import com.jpdacruz.appcontrolgranos.clases.Constantes;
-import com.jpdacruz.appcontrolgranos.clases.Operador;
-import com.jpdacruz.appcontrolgranos.clases.Planta;
-import com.jpdacruz.appcontrolgranos.interfaces.CallBackInterface;
+import com.jpdacruz.appcontrolgranos.ui.fragments.adapters.AdapterPlantas;
+import com.jpdacruz.appcontrolgranos.db.clases.Constantes;
+import com.jpdacruz.appcontrolgranos.db.clases.Operador;
+import com.jpdacruz.appcontrolgranos.db.clases.Planta;
+import com.jpdacruz.appcontrolgranos.db.interfaces.CallBackInterface;
 import java.util.ArrayList;
 
 public class ListarPlantasFragment extends Fragment {

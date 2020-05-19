@@ -1,6 +1,5 @@
-package com.jpdacruz.appcontrolgranos.fragments;
+package com.jpdacruz.appcontrolgranos.ui.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -10,12 +9,10 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,10 +20,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.jpdacruz.appcontrolgranos.R;
-import com.jpdacruz.appcontrolgranos.adapters.AdapterOperadores;
-import com.jpdacruz.appcontrolgranos.clases.Constantes;
-import com.jpdacruz.appcontrolgranos.clases.Operador;
-import com.jpdacruz.appcontrolgranos.interfaces.CallBackInterface;
+import com.jpdacruz.appcontrolgranos.ui.fragments.adapters.AdapterOperadores;
+import com.jpdacruz.appcontrolgranos.db.clases.Constantes;
+import com.jpdacruz.appcontrolgranos.db.clases.Operador;
+import com.jpdacruz.appcontrolgranos.db.interfaces.CallBackInterface;
 
 import java.util.ArrayList;
 
@@ -100,7 +97,6 @@ public class ListarOperadoresFragment extends Fragment {
 
                     Log.d(TAG,"nuevos values operador");
                     refOperador.child(operador.getId()).setValue(operador);
-                    recyclerOperadores.getAdapter().notifyDataSetChanged();
                     iniciarListenerRecyclerView();
                 }
             }
@@ -127,9 +123,11 @@ public class ListarOperadoresFragment extends Fragment {
         recyclerOperadores.setLayoutManager(new LinearLayoutManager(getContext()));
         adapterOperadores = new AdapterOperadores(operadores);
         recyclerOperadores.setAdapter(adapterOperadores);
+        recyclerOperadores.getAdapter().notifyDataSetChanged();
         Log.d(TAG,"notificando cambios recycler");
 
     }
+
 
     private void iniciarListenerRecyclerView() {
 

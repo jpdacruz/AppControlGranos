@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activities.CargarMolinoActivity"
+    tools:context=".ui.activities.CargarMolinoActivity"
     tools:showIn="@layout/activity_cargar_molino">
 
     <androidx.constraintlayout.widget.ConstraintLayout

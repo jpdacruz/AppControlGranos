@@ -1,7 +1,6 @@
-package com.jpdacruz.appcontrolgranos.clases;
+package com.jpdacruz.appcontrolgranos.db.clases;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Molino extends Planta implements Serializable {
 

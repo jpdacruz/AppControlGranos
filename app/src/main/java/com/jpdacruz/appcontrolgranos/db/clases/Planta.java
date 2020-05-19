@@ -1,7 +1,4 @@
-package com.jpdacruz.appcontrolgranos.clases;
-
-import java.util.ArrayList;
-import java.util.Objects;
+package com.jpdacruz.appcontrolgranos.db.clases;
 
 public class Planta extends Operador{
 

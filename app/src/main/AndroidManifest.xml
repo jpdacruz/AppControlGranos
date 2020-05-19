@@ -19,12 +19,12 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".activities.CargarMolinoActivity"
+            android:name=".ui.activities.CargarMolinoActivity"
             android:label="@string/title_activity_cargar_molino"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".ui.activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

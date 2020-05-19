@@ -1,16 +1,15 @@
-package com.jpdacruz.appcontrolgranos.adapters;
+package com.jpdacruz.appcontrolgranos.ui.fragments.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jpdacruz.appcontrolgranos.R;
-import com.jpdacruz.appcontrolgranos.clases.Planta;
+import com.jpdacruz.appcontrolgranos.db.clases.Planta;
 
 import java.util.ArrayList;
 

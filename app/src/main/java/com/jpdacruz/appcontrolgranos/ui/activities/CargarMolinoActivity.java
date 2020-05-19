@@ -1,4 +1,4 @@
-package com.jpdacruz.appcontrolgranos.activities;
+package com.jpdacruz.appcontrolgranos.ui.activities;
 
 import android.Manifest;
 import android.content.Context;
@@ -11,34 +11,26 @@ import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.jpdacruz.appcontrolgranos.R;
-import com.jpdacruz.appcontrolgranos.adapters.AdapterOperadores;
-import com.jpdacruz.appcontrolgranos.clases.Constantes;
-import com.jpdacruz.appcontrolgranos.interfaces.InterfaceGeneral;
-import com.jpdacruz.appcontrolgranos.clases.Molino;
-import com.jpdacruz.appcontrolgranos.clases.Operador;
-import com.jpdacruz.appcontrolgranos.clases.Planta;
+import com.jpdacruz.appcontrolgranos.db.clases.Constantes;
+import com.jpdacruz.appcontrolgranos.db.interfaces.InterfaceGeneral;
+import com.jpdacruz.appcontrolgranos.db.clases.Molino;
+import com.jpdacruz.appcontrolgranos.db.clases.Operador;
+import com.jpdacruz.appcontrolgranos.db.clases.Planta;
 
 import java.util.ArrayList;
 

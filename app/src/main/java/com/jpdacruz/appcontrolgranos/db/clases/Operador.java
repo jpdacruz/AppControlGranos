@@ -1,4 +1,4 @@
-package com.jpdacruz.appcontrolgranos.clases;
+package com.jpdacruz.appcontrolgranos.db.clases;
 
 import java.io.Serializable;
 import java.util.ArrayList;

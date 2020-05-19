@@ -1,4 +1,4 @@
-package com.jpdacruz.appcontrolgranos.interfaces;
+package com.jpdacruz.appcontrolgranos.db.interfaces;
 
 import android.view.View;
 import android.widget.EditText;

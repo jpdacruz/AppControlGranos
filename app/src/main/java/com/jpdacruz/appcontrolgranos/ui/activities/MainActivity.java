@@ -1,13 +1,13 @@
-package com.jpdacruz.appcontrolgranos.activities;
+package com.jpdacruz.appcontrolgranos.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.jpdacruz.appcontrolgranos.R;
-import com.jpdacruz.appcontrolgranos.clases.Operador;
-import com.jpdacruz.appcontrolgranos.fragments.ListarOperadoresFragment;
-import com.jpdacruz.appcontrolgranos.fragments.ListarPlantasFragment;
-import com.jpdacruz.appcontrolgranos.interfaces.CallBackInterface;
+import com.jpdacruz.appcontrolgranos.db.clases.Operador;
+import com.jpdacruz.appcontrolgranos.ui.fragments.ListarOperadoresFragment;
+import com.jpdacruz.appcontrolgranos.ui.fragments.ListarPlantasFragment;
+import com.jpdacruz.appcontrolgranos.db.interfaces.CallBackInterface;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
